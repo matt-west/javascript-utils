@@ -10,9 +10,9 @@
  *  Parse the params from a given url and returns an object consisting of
  *  the parameters and their values.
  *
- *  @param {string} url The URL from which the params are to be parsed.
- *  @return {object} An object consisting of key/value pairs for the
- *                   parameters.
+ *  @param  {string}  url The URL from which the params are to be parsed.
+ *  @return {object}  An object consisting of key/value pairs for the
+ *                    parameters.
  */
 function parseParams(url) {
   // Split the URL at the start of the params string.
