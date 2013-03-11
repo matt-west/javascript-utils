@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: euclidean-distance/euclidean-distance.js</title>
+    <title>JSDoc: Source: pearson-correlation/pearson-correlation.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: euclidean-distance/euclidean-distance.js</h1>
+    <h1 class="page-title">Source: pearson-correlation/pearson-correlation.js</h1>
     
     
 
@@ -26,7 +26,7 @@
     <section>
         <article>
             <pre class="prettyprint source"><code>/**
- *  @fileoverview Euclidean distance algorithm.
+ *  @fileoverview Pearson correlation score algorithm.
  *  @author matt.west@kojilabs.com (Matt West)
  *  @license Copyright 2013 Matt West.
  *           Licensed under MIT (http://opensource.org/licenses/MIT).
@@ -34,38 +34,57 @@
 
 
 /**
- *  Calculate the euclidean distance between two items in a dataset.
+ *  Calculate the person correlation score between two items in a dataset.
  *
  *  @param  {object}  prefs The dataset containing data about both items that
  *                    are being compared.
  *  @param  {string}  p1 Item one for comparison.
  *  @param  {string}  p2 Item two for comparison.
- *  @return {float}  The euclidean distance score.
+ *  @return {float}  The pearson correlation score.
  */
-function euclideanDistance(prefs, p1, p2) {
-  si = [];
+function pearsonCorrelation(prefs, p1, p2) {
+  var si = [];
 
   for (var i = 0; i &lt; Object.keys(prefs[p1]).length; i++) {
-    key = Object.keys(prefs[p1])[i];
+    var key = Object.keys(prefs[p1])[i];
 
     if (Object.keys(prefs[p2]).indexOf(key) != -1) {
       si.push(key);
     }
   }
 
-  if (si.length == 0) {
-    return 0;
-  }
+  var n = si.length;
 
-  sum_of_squares = 0;
+  if (n == 0) { return 0; }
 
+  var sum1 = 0;
+  for (var i = 0; i &lt; si.length; i++) { sum1 += prefs[p1][si[i]]; }
+
+  var sum2 = 0;
+  for (var i = 0; i &lt; si.length; i++) { sum2 += prefs[p2][si[i]]; }
+
+  var sum1Sq = 0;
   for (var i = 0; i &lt; si.length; i++) {
-    key = si[i];
-
-    sum_of_squares += Math.pow(prefs[p1][key] - prefs[p2][key], 2);
+    sum1Sq += Math.pow(prefs[p1][si[i]], 2);
   }
 
-  return 1.0 / (1 + Math.sqrt(sum_of_squares));
+  var sum2Sq = 0;
+  for (var i = 0; i &lt; si.length; i++) {
+    sum2Sq += Math.pow(prefs[p2][si[i]], 2);
+  }
+
+  var pSum = 0;
+  for (var i = 0; i &lt; si.length; i++) {
+    pSum += prefs[p1][si[i]] * prefs[p2][si[i]];
+  }
+
+  var num = pSum - (sum1 * sum2 / n);
+  var den = Math.sqrt((sum1Sq - Math.pow(sum1, 2) / n) *
+      (sum2Sq - Math.pow(sum2, 2) / n));
+
+  if (den == 0) { return 0; }
+
+  return num / den;
 }
 </code></pre>
         </article>
