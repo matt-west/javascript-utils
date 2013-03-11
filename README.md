@@ -4,7 +4,9 @@ A set of scripts for accomplishing common tasks.
 
 ## Utilities
 
+* **euclidean-distance**: An implementation of the Euclidean distance score algorithm.
 * **params-parser**: A utility for parsing the parameters from a url.
+* **pearson-correlation**: An implementation of the Pearson correlation score algorithm.
 
 ## Documentation
 
